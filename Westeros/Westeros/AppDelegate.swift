@@ -14,16 +14,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let starkSigil = Sigil(image: UIImage(named:"codeIsComing") ?? UIImage(), description: "Lobo huargo")
-        let starkHouse = House(name: "Stark", sigil: starkSigil, words: "Winter is coming")
-        
-        let lannisterSigil = Sigil(image: UIImage(named: "lannister") ?? UIImage(), description: "León rampante")
-        let lannisterHouse = House(name: "Lannister", sigil: lannisterSigil, words: "Oye mi rugido")
+        let controllers : [UIViewController] = Repository.local.houses.map {
+            HouseDetailsViewController(model: $0).wrapInNavigationController()
+        }
         
         let tabBarController = UITabBarController()
-        tabBarController.setViewControllers([HouseDetailsViewController(model: starkHouse),
-                                             HouseDetailsViewController(model: lannisterHouse)],
-                                            animated: true)
+        tabBarController.setViewControllers(controllers, animated: true)
         
         let screen = UIScreen.main.bounds
         window = UIWindow(frame: screen)

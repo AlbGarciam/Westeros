@@ -16,7 +16,7 @@ class PersonTests: XCTestCase {
     
     override func setUp() {
         sigil = Sigil(image: UIImage(), description: "Descripcion")
-        house = House(name: "name", sigil: sigil, words: "Se acerca el invierno")
+        house = House(name: "name", sigil: sigil, words: "Se acerca el invierno", wikiURL: starkURL)
         ned = Person(name: "Ned", alias: "Stark", house: house)
     }
     

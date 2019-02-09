@@ -23,9 +23,9 @@ class HouseTest: XCTestCase {
     
     override func setUp() {
         starkSigil = Sigil(image: UIImage(), description: "Lobo huargo")
-        starkHouse = House(name: "Stark", sigil: starkSigil, words: "Winter is coming")
+        starkHouse = House(name: "Stark", sigil: starkSigil, words: "Winter is coming", wikiURL: starkURL)
         lannisterSigil = Sigil(image: UIImage(), description: "León rampante")
-        lannisterHouse = House(name: "Lannister", sigil: lannisterSigil, words: "Oye mi rugido")
+        lannisterHouse = House(name: "Lannister", sigil: lannisterSigil, words: "Oye mi rugido", wikiURL: lannisterURL)
         
         rob = Person(name: "Rob", alias: "Young wolf", house: starkHouse)
         arya = Person(name: "Arya", house: starkHouse)
@@ -48,6 +48,11 @@ class HouseTest: XCTestCase {
         XCTAssertEqual(starkHouse.count, 2, "Tyrion was added")
     }
     
+    func testHouseAddMultiplePersons() {
+        starkHouse.add(persons: tyrion, arya, arya, rob)
+        XCTAssertEqual(starkHouse.count, 2, "Tyrion was added")
+    }
+    
     func testHouseHashable() {
         XCTAssertNotNil(starkHouse.hashValue)
     }
@@ -56,7 +61,7 @@ class HouseTest: XCTestCase {
         // Identity
         XCTAssertEqual(starkHouse, starkHouse)
         // Equality
-        let starky = House(name: "Stark", sigil: starkSigil, words: "Winter is coming")
+        let starky = House(name: "Stark", sigil: starkSigil, words: "Winter is coming", wikiURL: starkURL)
         XCTAssertEqual(starky, starkHouse)
         // Desigualdad
         XCTAssertNotEqual(starkHouse, lannisterHouse)
@@ -64,5 +69,11 @@ class HouseTest: XCTestCase {
     
     func testHouseComparable() {
         XCTAssertLessThan(lannisterHouse, starkHouse)
+    }
+    
+    func testHouse_SortedMembers_ReturnsAnArrayOfSortedMembers() {
+        starkHouse.add(person: rob)
+        starkHouse.add(person: arya)
+        XCTAssertEqual(starkHouse.sortedMembers, starkHouse.members.sorted())
     }
 }

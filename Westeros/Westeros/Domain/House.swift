@@ -6,6 +6,10 @@
 //  Copyright © 2019 AlbGarciam. All rights reserved.
 //
 
+let starkURL = URL(string: "https://awoiaf.westeros.org/index.php/House_Stark")!
+let lannisterURL = URL(string: "https://awoiaf.westeros.org/index.php/House_Lannister")!
+let targaryenURL = URL(string: "https://awoiaf.westeros.org/index.php/House_Targaryen")!
+
 import Foundation
 
 typealias Words = String
@@ -16,13 +20,15 @@ final class House {
     let name: String
     let sigil: Sigil
     let words: Words
+    let wikiURL: URL
     private var _members: Members = Members()
     
     //MARK: Init
-    init(name: String, sigil: Sigil, words: Words) {
+    init(name: String, sigil: Sigil, words: Words, wikiURL: URL) {
         self.name = name
         self.sigil = sigil
         self.words = words
+        self.wikiURL = wikiURL
     }
 }
 
@@ -39,6 +45,22 @@ extension House {
     func add(person: Person) {
         guard person.house == self else { return }
         _members.insert(person)
+    }
+    
+    func add(persons: Person...) {
+        persons.forEach{ add(person: $0) }
+    }
+    
+    func remove(person: Person) {
+        _members.remove(person)
+    }
+    
+    var sortedMembers: [Person] {
+        return _members.sorted()
+    }
+    
+    var members: [Person] {
+        return Array(_members)
     }
 }
 

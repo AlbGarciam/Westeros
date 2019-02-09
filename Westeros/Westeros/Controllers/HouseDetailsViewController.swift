@@ -39,6 +39,7 @@ class HouseDetailsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         syncModelWithView()
+        setUpUI()
     }
     
     //MARK: Sync
@@ -47,5 +48,23 @@ class HouseDetailsViewController: UIViewController {
         firstLabel.text = "House \(house.name)"
         secondLabel.text = house.words
         imageView.image = house.sigil.image
+    }
+    
+    //MARK: UI
+    
+    func setUpUI() {
+        // Add button to navigate to members list
+        let membersButton = UIBarButtonItem(title: "Members", style: .plain, target: self, action: #selector(displayMembers))
+        // Add button to navigate to wiki
+        let wikiButton = UIBarButtonItem(title: "Wiki", style: .plain, target: self, action: #selector(wikiButtonAction))
+        navigationItem.rightBarButtonItems = [membersButton, wikiButton]
+    }
+    
+    @objc func wikiButtonAction() {
+        navigationController?.pushViewController(ChildBrowser(house: house), animated: true)
+    }
+    
+    @objc func displayMembers() {
+        navigationController?.pushViewController(MemberListViewController(model: house.sortedMembers), animated: true)
     }
 }

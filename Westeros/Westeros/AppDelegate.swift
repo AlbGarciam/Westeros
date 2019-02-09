@@ -14,18 +14,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let controllers : [UIViewController] = Repository.local.houses.map {
-            HouseDetailsViewController(model: $0).wrapInNavigationController()
-        }
-        
-        let tabBarController = UITabBarController()
-        tabBarController.setViewControllers(controllers, animated: true)
+        let houses = Repository.local.houses
         
         let screen = UIScreen.main.bounds
         window = UIWindow(frame: screen)
         window?.makeKeyAndVisible()
         window?.backgroundColor = .red
-        window?.rootViewController = tabBarController
+        
+        window?.rootViewController = WesterosSplitViewController(houses: houses)
         
         return true
     }

@@ -18,7 +18,7 @@ class MemberListViewController: UIViewController {
     }
     
     //MARK: Properties
-    let model: [Person]
+    private(set) var model: [Person]
     
     //MARK: Initialization
     init(model: [Person]) {
@@ -32,8 +32,24 @@ class MemberListViewController: UIViewController {
     }
     
     //MARK: - Life cycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(houseDidChanged(_:)),
+                                               name: NSNotification.Name.houseDidChanged,
+                                               object: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc func houseDidChanged(_ notification: Notification) {
+        let userData = notification.userInfo
+        guard let newHouse = userData?[NotificationKeys.HouseDidChanged] as? House else { return }
+        self.model = newHouse.members
+        tableView.reloadData()
     }
 }
 

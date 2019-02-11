@@ -21,7 +21,7 @@ class ChildBrowser: UIViewController {
             webView.navigationDelegate = self
         }
     }
-    let model: House
+    private(set) var model: House
     
     init(house: House) {
         self.model = house
@@ -34,6 +34,26 @@ class ChildBrowser: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        syncModelWithView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(houseDidChanged(_:)),
+                                               name: NSNotification.Name.houseDidChanged,
+                                               object: nil) // Object which generates the notification, if nil is all objects
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc func houseDidChanged(_ notification: Notification) {
+        let userData = notification.userInfo
+        guard let newModel = userData?[NotificationKeys.HouseDidChanged] as? House else { return }
+        self.model = newModel
         syncModelWithView()
     }
     

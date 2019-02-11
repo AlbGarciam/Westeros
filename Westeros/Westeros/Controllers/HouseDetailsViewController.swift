@@ -20,7 +20,7 @@ class HouseDetailsViewController: UIViewController {
     @IBOutlet weak var secondLabel: UILabel!
     
     //MARK: Properties
-    let house: House
+    private(set) var house: House
     
     init(model: House) {
         self.house = model
@@ -66,5 +66,12 @@ class HouseDetailsViewController: UIViewController {
     
     @objc func displayMembers() {
         navigationController?.pushViewController(MemberListViewController(model: house.sortedMembers), animated: true)
+    }
+}
+
+extension HouseDetailsViewController: HouseListViewControllerDelegate {
+    func houseListViewController(_ vc: HouseListViewController, didRequestedToPresent house: House) {
+        self.house = house
+        syncModelWithView()
     }
 }

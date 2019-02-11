@@ -60,5 +60,36 @@ class HouseListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let house = model[indexPath.row]
         delegate?.houseListViewController(self, didRequestedToPresent: house)
+        // Notify info via notification
+        NotificationCenter.default.post(name: NSNotification.Name.houseDidChanged,
+                                        object: self,
+                                        userInfo: [NotificationKeys.HouseDidChanged: house])
+        // Only for split view
+        if let detailViewController = delegate as? UIViewController,
+            let detailNavigationController = detailViewController.navigationController {
+            splitViewController?.showDetailViewController(detailNavigationController, sender: nil)
+        }
+        
+        saveLastSelectedHouse(at: indexPath.row)
+    }
+}
+
+extension HouseListViewController {
+    func saveLastSelectedHouse(at index: Int) {
+        // Do not include complex objects
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(index, forKey: UserDefaultsKeyNames.lastSelectedHouse.rawValue)
+        userDefaults.synchronize() // Will be deprecated in future
+    }
+    
+    func lastSelectedHouse() -> House? {
+        let userDefaults = UserDefaults.standard
+        let index = userDefaults.integer(forKey: UserDefaultsKeyNames.lastSelectedHouse.rawValue)
+        return house(at: index)
+    }
+    
+    func house(at index: Int) -> House? {
+        guard index > 0 && index < model.count else { return nil }
+        return model[index]
     }
 }

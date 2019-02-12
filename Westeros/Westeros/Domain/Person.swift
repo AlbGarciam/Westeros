@@ -11,7 +11,7 @@ import Foundation
 final class Person {
     let name: String
     private let _alias: String?
-    let house: House
+    weak var house: House?
     
     var alias: String {
         return _alias ?? ""
@@ -26,14 +26,14 @@ final class Person {
 
 extension Person {
     var fullname: String {
-        return String(format: "%@ %@", name, house.name)
+        return String(format: "%@ %@", name, house?.name ?? "")
     }
 }
 
 extension Person {
     // Delegamos en otro objeto el calcular el hash
     var proxyForEquality: String {
-        return "\(name) \(alias) \(house.name)"
+        return "\(name) \(alias) \(house?.name ?? "")"
     }
     
     var proxyForComparable: String {

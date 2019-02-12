@@ -45,7 +45,7 @@ class HouseListViewController: UITableViewController {
         let house = model[indexPath.row]
         
         let cellId = "HouseCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId) ?? UITableViewCell(style: .default, reuseIdentifier: cellId)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId) ?? UITableViewCell(style: .subtitle, reuseIdentifier: cellId)
         cell.textLabel?.text = house.name
         cell.imageView?.image = house.sigil.image
 

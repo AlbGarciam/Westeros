@@ -10,10 +10,12 @@ import Foundation
 
 extension Notification.Name {
     static var houseDidChanged = Notification.Name("houseDidChanged")
+    static var seasonDidChanged = Notification.Name("seasonDidChanged")
 }
 
 enum NotificationKeys: String {
     case HouseDidChanged = "HouseDidChanged"
+    case SeasonDidChanged = "SeasonDidChanged"
 }
 
 enum UserDefaultsKeyNames: String {

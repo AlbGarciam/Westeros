@@ -19,7 +19,7 @@ class SeasonTests: XCTestCase {
     override func setUp() {
         releaseDate = Date()
         
-        season = Season(title: "Season Test", releaseDate: releaseDate)
+        season = Season(title: "Test", releaseDate: releaseDate)
         s1e01 = Episode(title: "Episode S1E01", releaseDate: releaseDate, season: season)
         s1e02 = Episode(title: "Episode S1E02", releaseDate: releaseDate+7, season: season)
         

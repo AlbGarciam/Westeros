@@ -40,8 +40,7 @@ class MemberListViewController: UIViewController {
                                                object: nil)
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+    deinit {
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -54,7 +53,10 @@ class MemberListViewController: UIViewController {
 }
 
 extension MemberListViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let person = model[indexPath.row]
+        navigationController?.pushViewController(MemberDetailViewController(model: person), animated: true)
+    }
 }
 
 extension MemberListViewController: UITableViewDataSource {

@@ -18,7 +18,7 @@ class EpisodeListViewController: UIViewController {
     }
     
     //MARK: Properties
-    let episodes: [Episode]
+    var episodes: [Episode]
     
     init(episodes: [Episode]) {
         self.episodes = episodes
@@ -28,6 +28,25 @@ class EpisodeListViewController: UIViewController {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(seasonDidChanged(_:)),
+                                               name: NSNotification.Name.seasonDidChanged,
+                                               object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc func seasonDidChanged(_ notification: Notification) {
+        let userData = notification.userInfo
+        guard let newSeason = userData?[NotificationKeys.SeasonDidChanged] as? Season else { return }
+        self.episodes = newSeason.sortedEpisodes
+        tableView.reloadData()
     }
     
 }
@@ -52,6 +71,6 @@ extension EpisodeListViewController : UITableViewDataSource {
 extension EpisodeListViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let episode = episodes[indexPath.row]
-        // navigationController?.pushViewController(SeasonDetailViewController(model: season), animated: true)
+        navigationController?.pushViewController(EpisodeDetailsViewController(model: episode), animated: true)
     }
 }

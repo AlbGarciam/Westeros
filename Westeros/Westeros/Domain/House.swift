@@ -15,6 +15,12 @@ import Foundation
 typealias Words = String
 typealias Members = Set<Person>
 
+enum HouseName: String {
+    case stark = "Stark"
+    case lannister = "Lannister"
+    case targaryen = "Targaryen"
+}
+
 final class House {
     //MARK: Properties
     let name: String

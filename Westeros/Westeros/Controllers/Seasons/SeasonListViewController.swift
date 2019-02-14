@@ -13,7 +13,7 @@ protocol SeasonListViewControllerDelegate: AnyObject {
 }
 
 class SeasonListViewController: UIViewController {
-
+    //MARK: outlets
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.delegate = self
@@ -34,7 +34,6 @@ class SeasonListViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 
 extension SeasonListViewController : UITableViewDataSource {
@@ -44,12 +43,12 @@ extension SeasonListViewController : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let season = seasons[indexPath.row]
-        
         let cellId = "SeasonCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId) ?? UITableViewCell(style: .default, reuseIdentifier: cellId)
-        cell.textLabel?.text = season.title
-        cell.detailTextLabel?.text = season.releaseDate.description
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId) ??
+                    UITableViewCell(style: .default, reuseIdentifier: cellId)
         
+        cell.textLabel?.text = season.title
+        cell.detailTextLabel?.text = "\(season.releaseDate)"
         return cell
     }
 }
@@ -62,10 +61,13 @@ extension SeasonListViewController : UITableViewDelegate {
         NotificationCenter.default.post(name: NSNotification.Name.seasonDidChanged,
                                         object: self,
                                         userInfo: [NotificationKeys.SeasonDidChanged: season])
-        // Only for split view
-        if let detailViewController = delegate as? UIViewController,
-            let detailNavigationController = detailViewController.navigationController {
-            splitViewController?.showDetailViewController(detailNavigationController, sender: nil)
-        }
+        
+//        Only for split view for iphone. This doesn't apply to this app because when we are on iphone we will make a push.
+//        And it is not correct to have this navigation logic inside a tableview. Instead of that, notify the delegate to
+//        perform the navigation
+//        if let detailViewController = delegate as? UIViewController,
+//            let detailNavigationController = detailViewController.navigationController {
+//            splitViewController?.showDetailViewController(detailNavigationController, sender: nil)
+//        }
     }
 }

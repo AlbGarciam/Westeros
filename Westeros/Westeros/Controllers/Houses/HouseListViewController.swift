@@ -45,7 +45,7 @@ class HouseListViewController: UITableViewController {
         let house = model[indexPath.row]
         
         let cellId = "HouseCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId) ?? UITableViewCell(style: .subtitle, reuseIdentifier: cellId)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId) ?? UITableViewCell(style: .default, reuseIdentifier: cellId)
         cell.textLabel?.text = house.name
         cell.imageView?.image = house.sigil.image
 
@@ -56,7 +56,6 @@ class HouseListViewController: UITableViewController {
         return 90
     }
 
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let house = model[indexPath.row]
         delegate?.houseListViewController(self, didRequestedToPresent: house)
@@ -64,13 +63,15 @@ class HouseListViewController: UITableViewController {
         NotificationCenter.default.post(name: NSNotification.Name.houseDidChanged,
                                         object: self,
                                         userInfo: [NotificationKeys.HouseDidChanged: house])
-        // Only for split view
-        if let detailViewController = delegate as? UIViewController,
-            let detailNavigationController = detailViewController.navigationController {
-            splitViewController?.showDetailViewController(detailNavigationController, sender: nil)
-        }
-        
         saveLastSelectedHouse(at: indexPath.row)
+        
+//        Only for split view for iphone. This doesn't apply to this app because when we are on iphone we will make a push.
+//        And it is not correct to have this navigation logic inside a tableview. Instead of that, notify the delegate to
+//        perform the navigation
+//        if let detailViewController = delegate as? UIViewController,
+//            let detailNavigationController = detailViewController.navigationController {
+//            splitViewController?.showDetailViewController(detailNavigationController, sender: nil)
+//        }
     }
 }
 

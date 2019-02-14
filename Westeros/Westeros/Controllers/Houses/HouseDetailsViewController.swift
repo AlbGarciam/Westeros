@@ -28,7 +28,7 @@ class HouseDetailsViewController: UIViewController {
         // Nil bundle -> Uses the same as target
         //                          It will be accessible from all bundles
         super.init(nibName: nil, bundle: Bundle(for: type(of: self)))
-        title = house.name
+        setUpUI()
     }
     
     // Apple workaround
@@ -39,20 +39,29 @@ class HouseDetailsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         syncModelWithView()
-        setUpUI()
     }
     
-    //MARK: Sync
-    
-    func syncModelWithView() {
-        firstLabel.text = "House \(house.name)"
-        secondLabel.text = house.words
-        imageView.image = house.sigil.image
+    //MARK: Target methods
+    func updateHouse(with house: House) {
+        self.house = house
+        syncModelWithView()
     }
     
-    //MARK: UI
+    //MARK: Private methods
     
-    func setUpUI() {
+    //MARK: - Sync method
+    
+    /// Updates the UI with the model. If outlets are not loaded it won't do anything because that
+    /// means that view is not loaded and it will be sync again during viewWillAppear
+    private func syncModelWithView() {
+        firstLabel?.text = "House \(house.name)"
+        secondLabel?.text = house.words
+        imageView?.image = house.sigil.image
+        title = house.name
+    }
+    
+    //MARK: - UI
+    private func setUpUI() {
         // Add button to navigate to members list
         let membersButton = UIBarButtonItem(title: "Members", style: .plain, target: self, action: #selector(displayMembers))
         // Add button to navigate to wiki
@@ -60,18 +69,17 @@ class HouseDetailsViewController: UIViewController {
         navigationItem.rightBarButtonItems = [membersButton, wikiButton]
     }
     
-    @objc func wikiButtonAction() {
+    @objc private func wikiButtonAction() {
         navigationController?.pushViewController(ChildBrowser(house: house), animated: true)
     }
     
-    @objc func displayMembers() {
+    @objc private func displayMembers() {
         navigationController?.pushViewController(MemberListViewController(model: house.sortedMembers), animated: true)
     }
 }
 
 extension HouseDetailsViewController: HouseListViewControllerDelegate {
     func houseListViewController(_ vc: HouseListViewController, didRequestedToPresent house: House) {
-        self.house = house
-        syncModelWithView()
+        updateHouse(with: house)
     }
 }

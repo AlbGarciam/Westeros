@@ -27,9 +27,9 @@ class HouseTest: XCTestCase {
         lannisterSigil = Sigil(image: UIImage(), description: "León rampante")
         lannisterHouse = House(name: "Lannister", sigil: lannisterSigil, words: "Oye mi rugido", wikiURL: lannisterURL)
         
-        rob = Person(name: "Rob", alias: "Young wolf", house: starkHouse)
-        arya = Person(name: "Arya", house: starkHouse)
-        tyrion = Person(name: "Tyrion", alias: "El enano", house: lannisterHouse)
+        rob = Person(name: "Rob", alias: "Young wolf", house: starkHouse, autoAdd: false)
+        arya = Person(name: "Arya", house: starkHouse, autoAdd: false)
+        tyrion = Person(name: "Tyrion", alias: "El enano", house: lannisterHouse, autoAdd: false)
     }
 
     func testHouseExistence() {
@@ -46,6 +46,12 @@ class HouseTest: XCTestCase {
         XCTAssertEqual(starkHouse.count, 2, "Arya was added")
         starkHouse.add(person: tyrion)
         XCTAssertEqual(starkHouse.count, 2, "Tyrion was added")
+    }
+    
+    func testHouseAutoAddPerson() {
+        XCTAssertEqual(starkHouse.count, 0)
+        let _ = Person(name: "This will be autoadded", house: starkHouse)
+        XCTAssertEqual(starkHouse.count, 1)
     }
     
     func testHouseAddMultiplePersons() {

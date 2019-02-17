@@ -41,4 +41,11 @@ class EpisodeTests: XCTestCase {
         let date = Date() - 1
         XCTAssertGreaterThan(episode, Episode(title: "hello", releaseDate: date, season: season))
     }
+    
+    func testEpisodeDescription() {
+        let date = Date()
+        let episode = Episode(title: "Test", releaseDate: date, season: season)
+        
+        XCTAssertEqual(episode.description, "\(episode.title) - (\(date))")
+    }
 }

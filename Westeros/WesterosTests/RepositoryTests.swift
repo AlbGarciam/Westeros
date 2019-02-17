@@ -60,6 +60,12 @@ class RepositoryTests: XCTestCase {
         XCTAssertNil(keepcoding)
     }
     
+    func testLocalRepositoryReturnsHousesByNameFromHouseNameEnum() {
+        let stark = Repository.local.house(named: .stark)
+        XCTAssertNotNil(stark)
+        XCTAssertEqual(stark?.name, "Stark")
+    }
+    
     func testLocalRepositoryFilterHousesByReturnsCorrectValue() {
         let filtered = Repository.local.houses {
             $0.count == 1

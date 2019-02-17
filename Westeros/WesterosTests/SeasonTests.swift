@@ -68,4 +68,8 @@ class SeasonTests: XCTestCase {
         season.add(episodes: s1e02, s1e01)
         XCTAssertEqual(season.sortedEpisodes, season.episodes.sorted())
     }
+    
+    func testSeasonDescription() {
+        XCTAssertEqual(season.description, "\(season.title) - (\(releaseDate!))")
+    }
 }

@@ -56,6 +56,12 @@ extension SeasonListViewController : UITableViewDataSource {
 extension SeasonListViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let season = seasons[indexPath.row]
+        // Exercise 6
+        /*
+         * navigationController?.pushViewController(SeasonDetailViewController(model: season), animated: true)
+         */
+        
+        
         delegate?.seasonListViewController(self, didRequestedToPresent: season)
         // Notify info via notification
         NotificationCenter.default.post(name: NSNotification.Name.seasonDidChanged,

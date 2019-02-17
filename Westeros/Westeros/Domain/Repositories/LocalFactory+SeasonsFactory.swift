@@ -38,7 +38,7 @@ extension LocalFactory: SeasonFactory {
 }
 
 
-var EpisodesBySeason = [
+fileprivate var EpisodesBySeason = [
     ["Winter Is Coming", "The Kingsroad", "Lord Snow", "Cripples, Bastards, and Broken Things"],
     ["The North Remembers", "The Night Lands", "What Is Dead May Never Die"],
     ["Valar Dohaeris", "Dark Wings, Dark Words", "Walk of Punishment", "And Now His Watch Is Ended"],

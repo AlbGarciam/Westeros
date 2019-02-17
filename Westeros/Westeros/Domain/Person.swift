@@ -17,11 +17,11 @@ final class Person {
         return _alias ?? ""
     }
     
-    init(name: String, alias: String? = nil, house: House, autoAdd: Bool = true) {
+    init(name: String, alias: String? = nil, house: House, addOnHouse: Bool = true) {
         self.name = name
         self._alias = alias
         self.house = house
-        guard autoAdd else { return }
+        guard addOnHouse else { return }
         self.house?.add(person: self)
     }
 }

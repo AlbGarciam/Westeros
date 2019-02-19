@@ -8,15 +8,42 @@
 
 import Foundation
 
-final class Episode {
+final class Episode : Decodable{
     let title: String
     let releaseDate: Date
-    weak var season: Season?
+    weak var season: Season? {
+        didSet {
+            oldValue?.remove(episode: self)
+            season?.add(episode: self)
+        }
+    }
     
-    init(title: String, releaseDate: Date, season: Season) {
+    fileprivate enum CodingKeys: String, CodingKey {
+        case name = "name"
+        case releaseDate = "releaseDate"
+    }
+    
+    init(title: String, releaseDate: Date, season: Season? = nil) {
         self.title = title
         self.releaseDate = releaseDate
-        self.season = season
+        defer {
+            self.season = season
+        }
+    }
+    
+    convenience init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: Episode.CodingKeys.self) // defining our (keyed) container
+        let title: String = try! container.decode(String.self, forKey: .name)
+        let releaseDate: String = try container.decode(String.self, forKey: .releaseDate)
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-dd-MM"
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.locale = Locale.current
+        
+        let formatDate = formatter.date(from: releaseDate)!
+        
+        self.init(title: title, releaseDate: formatDate)
     }
 }
 

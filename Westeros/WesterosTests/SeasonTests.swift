@@ -17,12 +17,9 @@ class SeasonTests: XCTestCase {
     var s1e02 : Episode!
     
     override func setUp() {
-        releaseDate = Date()
-        
-        season = Season(title: "Test", releaseDate: releaseDate)
-        s1e01 = Episode(title: "Episode S1E01", releaseDate: releaseDate, season: season)
-        s1e02 = Episode(title: "Episode S1E02", releaseDate: releaseDate+7, season: season)
-        
+        season = Season(title: "Test")
+        s1e01 = Episode(title: "Episode S1E01", releaseDate: Date(), season: season)
+        s1e02 = Episode(title: "Episode S1E02", releaseDate: Date()+50, season: season)
     }
     
     func testSeasonExistence() {
@@ -37,26 +34,26 @@ class SeasonTests: XCTestCase {
         // Identity
         XCTAssertEqual(season, season)
         // Equality
-        let season2 = Season(title: season.title, releaseDate: season.releaseDate)
+        let season2 = Season(title: season.title)
+        let _ = Episode(title: season.title, releaseDate: season.releaseDate, season: season2)
         XCTAssertEqual(season, season2)
         // Desigualdad
-        let season3 = Season(title: "Season tests2", releaseDate: releaseDate - 30)
+        let season3 = Season(title: "Season tests2")
         XCTAssertNotEqual(season, season3)
     }
     
     func testSeasonComparable() {
-        let date = releaseDate - 1
-        XCTAssertGreaterThan(season, Season(title: "Season teaser", releaseDate: date))
+        let previousSeason = Season(title: "Previous season")
+        let _ = Episode(title: "Initial", releaseDate: NSDate.distantPast, season: previousSeason)
+        XCTAssertGreaterThan(season, previousSeason)
     }
     
     func testSeasonAddEpisodes() {
-        XCTAssertEqual(season.numberOfEpisodes, 0)
+        XCTAssertEqual(season.numberOfEpisodes, 2)
         season.add(episode: s1e01)
-        XCTAssertEqual(season.numberOfEpisodes, 1, "Episode was not added")
-        season.add(episode: s1e01)
-        XCTAssertEqual(season.numberOfEpisodes, 1, "Episode was added but it exists previously")
-        season.add(episode: s1e02)
-        XCTAssertEqual(season.numberOfEpisodes, 2, "Episode was not added")
+        XCTAssertEqual(season.numberOfEpisodes, 2, "Episode was added")
+        let _ = Episode(title: "New", releaseDate: Date(), season: season)
+        XCTAssertEqual(season.numberOfEpisodes, 3, "Episode was added but it exists previously")
     }
     
     func testSeason_AddMultipleEpisodes_ReturnsNumberOfEpisodesWithSameLength() {
@@ -70,6 +67,6 @@ class SeasonTests: XCTestCase {
     }
     
     func testSeasonDescription() {
-        XCTAssertEqual(season.description, "\(season.title) - (\(releaseDate!))")
+        XCTAssertEqual(season.description, "\(season.title) - (\(season.releaseDate))")
     }
 }

@@ -1,0 +1,129 @@
+[{
+    "title": "Season 1",
+    "episodes": [{
+        "name": "Winter Is Coming",
+        "releaseDate": "2016-15-02"
+    },
+    {
+        "name": "The Kingsroad",
+        "releaseDate": "2016-22-02"
+    },
+    {
+        "name": "Lord Snow",
+        "releaseDate": "2016-28-02"
+    },
+    {
+        "name": "Cripples, Bastards, and Broken Things",
+        "releaseDate": "2016-03-03"
+    }
+    ]
+},
+{
+    "title": "Season 2",
+    "episodes": [{
+        "name": "The North Remembers",
+        "releaseDate": "2016-01-09"
+    },
+    {
+        "name": "The Night Lands",
+        "releaseDate": "2016-08-09"
+    },
+    {
+        "name": "What Is Dead May Never Die",
+        "releaseDate": "2016-15-09"
+    }
+    ]
+},
+{
+    "title": "Season 3",
+    "episodes": [{
+        "name": "Valar Dohaeris",
+        "releaseDate": "2016-01-12"
+    },
+    {
+        "name": "Dark Wings, Dark Words",
+        "releaseDate": "2016-08-12"
+    },
+    {
+        "name": "Walk of Punishment",
+        "releaseDate": "2016-15-12"
+    },
+    {
+        "name": "And Now His Watch Is Ended",
+        "releaseDate": "2016-22-12"
+    }
+    ]
+},
+{
+    "title": "Season 4",
+    "episodes": [{
+        "name": "Two Swords",
+        "releaseDate": "2017-01-01"
+    },
+    {
+        "name": "The Lion and the Rose",
+        "releaseDate": "2017-08-01"
+    },
+    {
+        "name": "Breaker of Chains",
+        "releaseDate": "2017-15-01"
+    }
+    ]
+},
+{
+    "title": "Season 5",
+    "episodes": [{
+        "name": "The Wars to Come",
+        "releaseDate": "2017-01-02"
+    },
+    {
+        "name": "The House of Black and White",
+        "releaseDate": "2017-08-02"
+    },
+    {
+        "name": "High Sparrow",
+        "releaseDate": "2017-15-02"
+    }
+    ]
+},
+{
+    "title": "Season 6",
+    "episodes": [{
+        "name": "The Red Woman",
+        "releaseDate": "2017-01-03"
+    },
+    {
+        "name": "Home",
+        "releaseDate": "2017-02-03"
+    },
+    {
+        "name": "Oathbreaker",
+        "releaseDate": "2017-15-03"
+    },
+    {
+        "name": "Book of the Stranger",
+        "releaseDate": "2017-01-04"
+    },
+    {
+        "name": "The Door",
+        "releaseDate": "2017-08-04"
+    }
+    ]
+},
+{
+    "title": "Season 7",
+    "episodes": [{
+        "name": "Dragonstone",
+        "releaseDate": "2017-01-07"
+    },
+    {
+        "name": "Stormborn",
+        "releaseDate": "2017-08-07"
+    },
+    {
+        "name": "The Queen's Justice",
+        "releaseDate": "2017-15-07"
+    }
+    ]
+}
+]

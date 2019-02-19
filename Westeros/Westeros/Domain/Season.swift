@@ -10,16 +10,31 @@ import Foundation
 
 typealias Episodes = Set<Episode>
 
-final class Season {
+final class Season : Decodable {
     let title: String
-    let releaseDate: Date
-    private var _episodes: Episodes
-    
-    init(title: String, releaseDate: Date) {
-        self.title = title
-        self.releaseDate = releaseDate
-        self._episodes = Episodes()
+    var releaseDate: Date {
+        return sortedEpisodes.first?.releaseDate ?? NSDate.distantFuture
     }
+    private var _episodes = Episodes()
+    
+    fileprivate enum CodingKeys: String, CodingKey {
+        case title = "title"
+        case episodes = "episodes"
+    }
+    
+    init(title: String) {
+        self.title = title
+    }
+    convenience init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: Season.CodingKeys.self) // defining our (keyed) container
+        let title = try container.decode(String.self, forKey: .title)
+        let episodes: [Episode] = try container.decode([Episode].self, forKey: .episodes)
+        self.init(title: title)
+        episodes.forEach { [weak self] episode in
+            episode.season = self
+        }
+    }
+    
 }
 //MARK: Extension of functionality
 extension Season {
@@ -43,6 +58,10 @@ extension Season {
     }
     
     func add(episodes: Episode...) {
+        episodes.forEach{[weak self] in self?.add(episode: $0)}
+    }
+    
+    func add(episodes: [Episode]) {
         episodes.forEach{[weak self] in self?.add(episode: $0)}
     }
     

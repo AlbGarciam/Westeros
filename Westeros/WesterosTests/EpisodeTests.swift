@@ -14,7 +14,7 @@ class EpisodeTests: XCTestCase {
     var episode: Episode!
     
     override func setUp() {
-        self.season = Season(title: "Temporada", releaseDate: Date())
+        self.season = Season(title: "Temporada")
         self.episode = Episode(title: "Test", releaseDate: Date(), season: self.season)
     }
 
@@ -45,7 +45,6 @@ class EpisodeTests: XCTestCase {
     func testEpisodeDescription() {
         let date = Date()
         let episode = Episode(title: "Test", releaseDate: date, season: season)
-        
         XCTAssertEqual(episode.description, "\(episode.title) - (\(date))")
     }
 }

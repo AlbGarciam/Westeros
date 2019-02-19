@@ -19,16 +19,12 @@ protocol SeasonFactory {
 extension LocalFactory: SeasonFactory {
     var seasons: SeasonList {
         var seasons = SeasonList()
-        EpisodesBySeason.enumerated().forEach { (seasonNumber, episodes) in
-            let season = Season(title: "Season \(seasonNumber+1)", releaseDate: Date()+TimeInterval(seasonNumber*300))
-            episodes.enumerated().forEach({ (episodeNumber, name) in
-                let episode = Episode(title: "\(name) - S\(seasonNumber+1)E\(episodeNumber)",
-                    releaseDate: season.releaseDate+TimeInterval((episodeNumber-1)*10),
-                    season: season)
-                season.add(episode: episode)
-            })
-            seasons.append(season)
+        guard let path = Bundle.main.path(forResource: "seasons", ofType: "json"),
+              let data = try? Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe),
+              let seasonList = try? JSONDecoder().decode(SeasonList.self, from: data) else {
+            return seasons
         }
+        seasons.append(contentsOf: seasonList)
         return seasons.sorted()
     }
     
@@ -36,14 +32,3 @@ extension LocalFactory: SeasonFactory {
         return seasons.filter(filter)
     }
 }
-
-
-fileprivate var EpisodesBySeason = [
-    ["Winter Is Coming", "The Kingsroad", "Lord Snow", "Cripples, Bastards, and Broken Things"],
-    ["The North Remembers", "The Night Lands", "What Is Dead May Never Die"],
-    ["Valar Dohaeris", "Dark Wings, Dark Words", "Walk of Punishment", "And Now His Watch Is Ended"],
-    ["Two Swords", "The Lion and the Rose", "Breaker of Chains"],
-    ["The Wars to Come", "The House of Black and White", "High Sparrow"],
-    ["The Red Woman", "Home", "Oathbreaker", "Book of the Stranger", "The Door"],
-    ["Dragonstone", "Stormborn", "The Queen's Justice"]
-]

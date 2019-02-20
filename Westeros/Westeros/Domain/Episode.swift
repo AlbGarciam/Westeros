@@ -11,6 +11,9 @@ import Foundation
 final class Episode : Decodable{
     let title: String
     let releaseDate: Date
+    
+    /// Season of the episode, when it is added on a new season, it will automatically add
+    /// itself to the season episode and remove from the other season
     weak var season: Season? {
         didSet {
             oldValue?.remove(episode: self)
@@ -23,6 +26,12 @@ final class Episode : Decodable{
         case releaseDate = "releaseDate"
     }
     
+    /// Initializer (Just for testing purposes)
+    ///
+    /// - Parameters:
+    ///   - title: Title of the episode
+    ///   - releaseDate: Release date of the episode
+    ///   - season: Season of the episode
     init(title: String, releaseDate: Date, season: Season? = nil) {
         self.title = title
         self.releaseDate = releaseDate
@@ -31,6 +40,10 @@ final class Episode : Decodable{
         }
     }
     
+    /// Decodable initializer
+    ///
+    /// - Parameter decoder: decoder
+    /// - Throws: Can throw an error when parse cannot be performed
     convenience init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: Episode.CodingKeys.self) // defining our (keyed) container
         let title: String = try! container.decode(String.self, forKey: .name)

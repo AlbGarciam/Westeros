@@ -37,10 +37,6 @@ extension LocalFactory: HouseFactory {
         let _ = Person(name: "Jaime", alias: "El matarreyes", house: lannisterHouse)
         let _ = Person(name: "Daenerys", alias: "Madre de dragones", house: targaryenHouse)
         
-//        starkHouse.add(persons: rob, arya)
-//        lannisterHouse.add(persons: tyrion, cersei, jaime)
-//        targaryenHouse.add(persons: daenerys)
-        
         return [starkHouse, lannisterHouse, targaryenHouse].sorted()
     }
     

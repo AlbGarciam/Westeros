@@ -24,18 +24,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //MARK: For iPad
     var houseDetailInNav: UINavigationController?
     var seasonDetailInNav: UINavigationController?
-    
+    //MARK: - Application lifecycle
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         //MARK: Houses
         let houses = Repository.local.houses
         let houseList = HouseListViewController(model: houses)
-        let initialHouse = houseList.lastSelectedHouse() ?? houses.first!
+        let initialHouse = houseList.lastSelectedHouse() ?? houses.first! // Assumption of the practice, a house will have one member at least
         let houseDetail = HouseDetailsViewController(model: initialHouse)
         
         //MARK:Seasons
         let seasons = Repository.local.seasons
         let seasonsList = SeasonListViewController(seasons: seasons)
-        let seasonDetail = SeasonDetailViewController(model: seasons.first!)
+        let seasonDetail = SeasonDetailViewController(model: seasons.first!) // Assumption of the practice, a Season will have one episode at least
         
         //MARK: TabBar
         let tabBar = UITabBarController()

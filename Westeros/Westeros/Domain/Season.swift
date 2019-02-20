@@ -12,6 +12,9 @@ typealias Episodes = Set<Episode>
 
 final class Season : Decodable {
     let title: String
+    
+    /// Release date of the season, in case that season doesn't have any episode,
+    /// it will use the maximun available date, because it means that season is not ready to be published
     var releaseDate: Date {
         return sortedEpisodes.first?.releaseDate ?? NSDate.distantFuture
     }
@@ -22,9 +25,18 @@ final class Season : Decodable {
         case episodes = "episodes"
     }
     
+    /// Initializer (Just for testing purposes)
+    ///
+    /// - Parameter title: Title of the season
     init(title: String) {
         self.title = title
     }
+    
+    
+    /// Decodable initializer
+    ///
+    /// - Parameter decoder: decoder
+    /// - Throws: Can throw an error when parse cannot be performed
     convenience init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: Season.CodingKeys.self) // defining our (keyed) container
         let title = try container.decode(String.self, forKey: .title)

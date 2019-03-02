@@ -61,7 +61,6 @@ extension SeasonListViewController : UITableViewDelegate {
          * navigationController?.pushViewController(SeasonDetailViewController(model: season), animated: true)
          */
         
-        
         delegate?.seasonListViewController(self, didRequestedToPresent: season)
         // Notify info via notification
         NotificationCenter.default.post(name: NSNotification.Name.seasonDidChanged,
